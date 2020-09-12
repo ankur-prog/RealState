@@ -15,7 +15,8 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        phone = request.POST['phone']
+
+
 
         # check if password matches
 
@@ -34,7 +35,7 @@ def register(request):
                                                 , last_name=last_name
                                                 , email=email
                                                 , password=password
-                                                , phone=phone
+
                                                 )
                 user.save()
 
@@ -61,7 +62,7 @@ def login(request):
             messages.success(request, ' You are now logged in.')
             return redirect('dashboard')
         else:
-            messages.error(request,'Invalid credentials')
+            messages.error(request, 'Invalid credentials')
             return redirect('login')
 
     else:
@@ -71,14 +72,14 @@ def login(request):
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
-        messages.success(request,' You are now logged out')
+        messages.success(request, ' You are now logged out')
     return redirect('index')
 
 
 def dashboard(request):
     user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
     context = {
-        'contacts' : user_contacts
+        'contacts': user_contacts
 
     }
-    return render(request, 'accounts/dashboard.html',context)
+    return render(request, 'accounts/dashboard.html', context)
